@@ -9,11 +9,10 @@ on:
 
 env:
   GO_VERSION: 1.19
-  CURR_OS: ubuntu-latest
 
 jobs:
   go-mod:
-    runs-on: ${{ env.CURR_OS }}
+    runs-on: ubuntu-latest
     steps:
       - name: Setup Go
         uses: actions/setup-go@v3
@@ -30,14 +29,6 @@ jobs:
       - name: Check go mod
         run: make mod
 
-  golangci-lint:
-    runs-on: ${{ env.CURR_OS }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: ${{ env.GO_VERSION }}
       - name: lint
         uses: golangci/golangci-lint-action@v3.2.0
         with:
@@ -46,13 +37,5 @@ jobs:
           skip-build-cache: true
           skip-pkg-cache: true
 
-  test:
-    runs-on: ${{ env.CURR_OS }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: ${{ env.GO_VERSION }}
       - name: Test
         run: make test
