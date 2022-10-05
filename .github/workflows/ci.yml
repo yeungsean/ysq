@@ -17,6 +17,10 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v3
         with:
+          # https://github.com/actions/setup-go#supported-version-syntax
+          # ex:
+          # - 1.18beta1 -> 1.18.0-beta.1
+          # - 1.18rc1 -> 1.18.0-rc.1
           go-version: ${{ env.GO_VERSION }}
 
       - name: Checkout code
@@ -34,10 +38,6 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v3
         with:
-          # https://github.com/actions/setup-go#supported-version-syntax
-          # ex:
-          # - 1.18beta1 -> 1.18.0-beta.1
-          # - 1.18rc1 -> 1.18.0-rc.1
           go-version: ${{ env.GO_VERSION }}
       - name: lint
         uses: golangci/golangci-lint-action@v3.2.0
@@ -51,5 +51,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
       - name: Test
         run: make test
