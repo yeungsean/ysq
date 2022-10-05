@@ -1,3 +1,4 @@
+// Package delegate callback function
 package delegate
 
 type (

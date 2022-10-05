@@ -114,8 +114,7 @@ func (q *Query[T]) Max(comparer Comparer[T]) T {
 
 	max := item
 	for item, ok = next(); ok; item, ok = next() {
-		switch comparer(max, item) {
-		case 1:
+		if comparer(max, item) == 1 {
 			max = item
 		}
 	}
@@ -132,8 +131,7 @@ func (q *Query[T]) Min(comparer Comparer[T]) T {
 
 	min := item
 	for item, ok = next(); ok; item, ok = next() {
-		switch comparer(min, item) {
-		case -1:
+		if comparer(min, item) == -1 {
 			min = item
 		}
 	}

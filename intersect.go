@@ -34,7 +34,7 @@ func (q *Query[T]) IntersectQ(otherQ *Query[T]) *Query[T] {
 	}
 }
 
-// IntersectQ 生成两个序列的交集
+// IntersectBy 生成两个序列的交集
 func (q *Query[T]) IntersectBy(other []T, getter GetHashCoder[T]) *Query[T] {
 	otherQ := FromSlice(other)
 	return &Query[T]{

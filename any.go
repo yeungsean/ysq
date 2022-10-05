@@ -1,3 +1,4 @@
+// Package ysq ...
 package ysq
 
 import (

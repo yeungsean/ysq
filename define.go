@@ -6,12 +6,24 @@ type (
 	// Comparer 大小比较器
 	Comparer[T any] func(prev, current T) int
 
-	// GetHashCoder ...
+	// GetHashCoder 获取hash值
 	GetHashCoder[T any] func(T) int64
 
-	// Query ...
+	// Query 查询器
 	Query[T any] struct {
 		Next func() Iterator[T]
+	}
+
+	// KeyValuePair 键值对
+	KeyValuePair[K, V any] struct {
+		Key   K
+		Value V
+	}
+
+	// KeyListPair 键列表对
+	KeyListPair[K, V any] struct {
+		Key  K
+		List []V
 	}
 
 	// IterContinue 终止迭代标记
@@ -31,9 +43,7 @@ var (
 )
 
 // Iter 迭代
-func (q Query[T]) Iter(next Iterator[T], predicate func(T) IterContinue) (T, bool) {
-	var item T
-	var ok bool
+func (q Query[T]) Iter(next Iterator[T], predicate func(T) IterContinue) (item T, ok bool) {
 	for item, ok = next(); ok; item, ok = next() {
 		if !predicate(item) {
 			return item, ok
