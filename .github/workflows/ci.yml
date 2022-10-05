@@ -11,7 +11,7 @@ env:
   GO_VERSION: 1.19
 
 jobs:
-  go-mod:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Go
@@ -42,6 +42,9 @@ jobs:
 
       - name: Convert coverage
         uses: jandelgado/gcov2lcov-action@v1.0.5
+        with:
+            infile: coverage.out
+            outfile: coverage.lcov
 
       - name: Upload coverage
         uses: coverallsapp/github-action@master
