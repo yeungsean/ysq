@@ -37,17 +37,11 @@ jobs:
           skip-build-cache: true
           skip-pkg-cache: true
 
-      - name: Test
+      - name: Test & coverage
         run: make test
 
-      - name: Convert coverage
-        uses: jandelgado/gcov2lcov-action@v1.0.5
-        with:
-            infile: coverage.out
-            outfile: coverage.lcov
-
-      - name: Upload coverage
-        uses: coverallsapp/github-action@master
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
         with:
           github-token: ${{ secrets.github_token }}
           path-to-lcov: coverage.lcov
