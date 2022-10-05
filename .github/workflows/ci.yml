@@ -39,9 +39,3 @@ jobs:
 
       - name: Test & coverage
         run: make test
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          github-token: ${{ secrets.github_token }}
-          path-to-lcov: coverage.lcov

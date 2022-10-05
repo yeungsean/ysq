@@ -64,18 +64,41 @@ func TestElementAtOr(t *testing.T) {
 }
 
 func TestToChan(t *testing.T) {
-	ch := make(chan int)
+	cr := &ChanResult[int]{
+		Ch: make(chan int),
+	}
 	go func() {
-		FromSequence(1, 10).ToChan(ch)
+		FromSequence(1, 10).ToChan(cr)
 	}()
 	i := 0
-	for v := range ch {
+	for v := range cr.Ch {
+		assert.Equal(t, i+1, v)
+		i++
+	}
+
+	assert.Equal(t, true, cr.GetClosed())
+	assert.Equal(t, 10, i)
+}
+
+func TestToChanBreak(t *testing.T) {
+	cr := &ChanResult[int]{
+		Ch: make(chan int),
+	}
+	go func() {
+		FromSequence(1, 10).ToChan(cr)
+	}()
+	i := 0
+	for v := range cr.Ch {
 		assert.Equal(t, i+1, v)
 		i++
 		if v >= 5 {
-			close(ch)
+			cr.SetWaitClose(true)
+			break
 		}
 	}
+
+	assert.Equal(t, false, cr.GetClosed())
+	cr.CloseWithTimeout()
 	assert.Equal(t, 5, i)
 }
 

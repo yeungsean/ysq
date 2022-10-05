@@ -1,6 +1,9 @@
 package ysq
 
 import (
+	"sync"
+	"time"
+
 	"github.com/yeungsean/ysq/pkg/delegate"
 	"golang.org/x/exp/constraints"
 )
@@ -34,8 +37,78 @@ func (q *Query[T]) ToSlice(sliceCap ...uint) []T {
 	return result
 }
 
+// ChanResult ...
+type ChanResult[T any] struct {
+	waitCloseRW sync.RWMutex
+	closedRW    sync.RWMutex
+	sync.Once
+	Ch        chan T
+	waitClose bool
+	closed    bool
+}
+
+// GetWaitClose 获取关闭标识位
+func (cr *ChanResult[T]) GetWaitClose() bool {
+	cr.waitCloseRW.RLock()
+	tmp := cr.waitClose
+	cr.waitCloseRW.RUnlock()
+	return tmp
+}
+
+// SetWaitClose 设置关闭标识位
+func (cr *ChanResult[T]) SetWaitClose(v bool) {
+	cr.waitCloseRW.Lock()
+	cr.waitClose = v
+	cr.waitCloseRW.Unlock()
+}
+
+// GetClosed 获取closed的标识位
+func (cr *ChanResult[T]) GetClosed() bool {
+	cr.closedRW.RLock()
+	tmp := cr.closed
+	cr.closedRW.RUnlock()
+	return tmp
+}
+
+// setClosed 设置closed的标识位
+func (cr *ChanResult[T]) setClosed(v bool) {
+	cr.closedRW.Lock()
+	cr.closed = v
+	cr.closedRW.Unlock()
+}
+
+// Close 关闭channel
+func (cr *ChanResult[T]) Close() {
+	if cr.GetClosed() {
+		return
+	}
+	cr.Once.Do(func() {
+		cr.setClosed(true)
+		close(cr.Ch)
+	})
+}
+
+// CloseWithTimeout 带超时设定的关闭channel
+func (cr *ChanResult[T]) CloseWithTimeout(ts ...time.Duration) {
+	if cr.GetClosed() {
+		return
+	}
+	var last time.Duration
+	if len(ts) > 0 {
+		last = ts[0]
+	} else {
+		last = time.Millisecond
+	}
+	select {
+	case <-cr.Ch:
+		cr.Close()
+	case <-time.After(last):
+		cr.Close()
+	}
+}
+
 // ToChan ...
-func (q *Query[T]) ToChan(ch chan<- T) {
+func (q *Query[T]) ToChan(cr *ChanResult[T]) {
 	next := q.Next()
 	q.Iter(next, func(t T) (v IterContinue) {
 		defer func() {
@@ -43,9 +116,13 @@ func (q *Query[T]) ToChan(ch chan<- T) {
 				v = IterContinueNo
 			}
 		}()
-		ch <- t
+		if cr.GetWaitClose() {
+			return IterContinueNo
+		}
+		cr.Ch <- t
 		return IterContinueYes
 	})
+	cr.Close()
 }
 
 // Count 返回序列中的元素数量

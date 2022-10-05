@@ -2,7 +2,7 @@
 include Makefile.mk
 
 test:
-	@$(GO) test -gcflags=all=-l -timeout 30s -coverprofile=coverage.txt -covermode=atomic -parallel 2 ./...
+	@$(GO) test -gcflags=all=-l -timeout=60s -coverprofile=coverage.txt -covermode=atomic -race -parallel 2 ./...
 
 mod:
 	@$(GO) mod tidy
