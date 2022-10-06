@@ -42,4 +42,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make test
 
-      - uses: codecov/codecov-action@v1
+      - name: Convert coverage
+        uses: jandelgado/gcov2lcov-action@v1.0.2
+        with:
+          infile: coverage.txt
+          outfile: coverage.lcov
+
+      - name: Upload coverage
+        uses: coverallsapp/github-action@v1.0.1
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: coverage.lcov
+
