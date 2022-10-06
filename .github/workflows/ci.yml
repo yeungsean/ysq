@@ -29,13 +29,18 @@ jobs:
       - name: Check go mod
         run: make mod
 
-      - name: lint
+      - name: golangci-lint
         uses: golangci/golangci-lint-action@v3.2.0
         with:
           version: latest
           # skip cache because of flaky behaviors
           skip-build-cache: true
           skip-pkg-cache: true
+
+      - name: Run linters
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
+          golangci-lint -E bodyclose depguard dogsled dupl errcheck funlen goconst gocritic gocyclo gofmt goimports exportloopref revive gomnd goprintffuncname gosec gosimple govet ineffassign lll misspell nakedret rowserrcheck staticcheck typecheck unconvert unparam unused whitespace run ./...
 
       - name: Test & coverage
         env:
