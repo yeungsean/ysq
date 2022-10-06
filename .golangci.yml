@@ -93,7 +93,7 @@ linters-settings:
     # see https://github.com/kisielk/errcheck#excluding-functions for details
     # exclude: /path/to/file.txt
   funlen:
-    lines: 130
+    lines: 80
     statements: 40
   gocognit:
     # minimal code complexity to report, 30 by default (but we recommend 10-20)
@@ -154,14 +154,14 @@ linters-settings:
           - operation
           - return
           - assign
-  gomodguard:
-    allowed:
-      modules:                                                        # List of allowed modules
+  # gomodguard:
+    # allowed:
+      # modules:                                                        # List of allowed modules
         # - gopkg.in/yaml.v2
-      domains:                                                        # List of allowed module domains
+      # domains:                                                        # List of allowed module domains
         # - golang.org
-    blocked:
-      modules:                                                        # List of blocked modules
+    # blocked:
+    #   modules:                                                        # List of blocked modules
         # - github.com/uudashr/go-module:                             # Blocked module
         #     recommendations:                                        # Recommended modules that should be used instead (Optional)
         #       - golang.org/x/mod
@@ -197,7 +197,7 @@ linters-settings:
   lll:
     # max line length, lines longer will be reported. Default is 120.
     # '\t' is counted as 1 character by default, and can be changed with the tab-width option
-    line-length: 180
+    line-length: 120
     # tab width in spaces. Default to 1.
     tab-width: 1
   maligned:
