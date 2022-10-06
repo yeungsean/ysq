@@ -4,6 +4,7 @@ GOPATH ?= $(shell go GOPATH)
 GOROOT ?= $(shell go GOROOT)
 GOBIN ?= $(GOROOT)/bin
 GO ?= go
+GOLANGCI-LINT ?= golangci-lint
 DELVE ?= dlv
 MAIN = main.go
 
