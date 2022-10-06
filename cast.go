@@ -49,8 +49,8 @@ func (q *Query[T]) CastToInt32By(caster func(T) int32) *Query[int32] {
 	return Cast(q, caster)
 }
 
-// CastToInterfaceBy 转interface{}
-func (q *Query[T]) CastToInterfaceBy() *Query[interface{}] {
+// CastToInterface 转interface{}
+func (q *Query[T]) CastToInterface() *Query[interface{}] {
 	return Cast(q, func(v T) interface{} {
 		var box interface{} = v
 		return box

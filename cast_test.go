@@ -46,11 +46,11 @@ func TestCastInt32(t *testing.T) {
 }
 
 func TestCastInterface(t *testing.T) {
-	int64ToInterfaceSlice := FromSlice([]int64{1, 2, 3, 4, 5}).CastToInterfaceBy().ToSlice()
+	int64ToInterfaceSlice := FromSlice([]int64{1, 2, 3, 4, 5}).CastToInterface().ToSlice()
 	want := []interface{}{int64(1), int64(2), int64(3), int64(4), int64(5)}
 	assert.EqualValues(t, want, int64ToInterfaceSlice)
 
-	strToInterfaceSlice := FromSlice([]string{"ali", "tx", "meituan"}).CastToInterfaceBy().ToSlice()
+	strToInterfaceSlice := FromSlice([]string{"ali", "tx", "meituan"}).CastToInterface().ToSlice()
 	want2 := []interface{}{"ali", "tx", "meituan"}
 	assert.EqualValues(t, want2, strToInterfaceSlice)
 }

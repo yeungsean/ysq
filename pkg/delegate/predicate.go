@@ -48,11 +48,11 @@ func PartialFunc[T, TResult any](fn interface{}, stashArgs ...T) func(...T) TRes
 }
 
 func partial3Func[T, TResult any](f func(T, T, T) TResult, stashArgs ...T) func(...T) TResult {
-	const cap = 3
-	args := make([]T, 0, cap)
+	const capacity = 3
+	args := make([]T, 0, capacity)
 	args = append(args, stashArgs...)
 	return func(lastArgs ...T) TResult {
-		if len(args) >= cap {
+		if len(args) >= capacity {
 			return f(args[0], args[1], args[2])
 		}
 

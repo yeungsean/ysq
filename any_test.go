@@ -36,6 +36,13 @@ func TestAll(t *testing.T) {
 		})
 		assert.False(t, res)
 	}()
+
+	func() {
+		res := FromSlice([]int{1, 3, 5, 7, 9}).All(func(i int) bool {
+			return i%2 == 0
+		})
+		assert.False(t, res)
+	}()
 }
 
 func TestAny(t *testing.T) {
