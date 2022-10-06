@@ -38,13 +38,8 @@ jobs:
           skip-pkg-cache: true
 
       - name: Test & coverage
-        run: make test
-
-      - name: pull request comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git fetch origin main
-          go get github.com/johejo/go-cover-view
-          go install github.com/johejo/go-cover-view
-          go-cover-view -ci github-actions -git-diff-base origin/main
+        run: make test
+
+      - uses: codecov/codecov-action@v1
