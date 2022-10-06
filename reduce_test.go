@@ -23,3 +23,13 @@ func TestReduce(t *testing.T) {
 		assert.Equal(t, 55, total)
 	}()
 }
+
+func TestMapReduce(t *testing.T) {
+	q := FromSequence(1, 10)
+	total := q.Select(func(i int) int {
+		return i + 1
+	}).Reduce(0, func(total, current int) int {
+		return total + current
+	})
+	assert.Equal(t, 65, total)
+}

@@ -97,6 +97,26 @@ func all() {
     fmt.Println(res) // false
 }
 
+func mapReduce() {
+    func() {
+        res := FromSequence(1, 10).Select(func(v int) int {
+            return v + 1
+        }).Reduce(0, func(total, current int) int {
+            return total + current
+        })
+        fmt.Println(res) // 65
+    }()
+
+    func() {
+        res := FromSequence(1, 10).Select(func(v int) int {
+            return v + 1
+        }).SumToInt(func(current int) int {
+            return current
+        })
+        fmt.Println(res) // 65
+    }()
+}
+
 // like python
 func partial() {
     tmpAction2 := func(arg1, arg2 int) {
