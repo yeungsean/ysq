@@ -40,7 +40,7 @@ jobs:
       - name: Run linters
         run: |
           export PATH=$PATH:$(go env GOPATH)/bin
-          golangci-lint -E bodyclose depguard dogsled dupl errcheck funlen goconst gocritic gocyclo gofmt goimports exportloopref revive gomnd goprintffuncname gosec gosimple govet ineffassign lll misspell nakedret rowserrcheck staticcheck typecheck unconvert unparam unused whitespace run ./...
+          golangci-lint  run ./...
 
       - name: Test & coverage
         env:

@@ -4,6 +4,68 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+func sumIntegerN[R constraints.Integer | constraints.Float](box interface{}) (R, bool) {
+	switch tmp := box.(type) {
+	case *int32:
+		return (R)(*tmp), true
+	case int32:
+		return (R)(tmp), true
+	case *int64:
+		return (R)(*tmp), true
+	case int64:
+		return (R)(tmp), true
+	case *int16:
+		return (R)(*tmp), true
+	case int16:
+		return (R)(tmp), true
+	case *int8:
+		return (R)(*tmp), true
+	case int8:
+		return (R)(tmp), true
+	case *uint32:
+		return (R)(*tmp), true
+	case uint32:
+		return (R)(tmp), true
+	case *uint64:
+		return (R)(*tmp), true
+	case uint64:
+		return (R)(tmp), true
+	case *uint16:
+		return (R)(*tmp), true
+	case uint16:
+		return (R)(tmp), true
+	case *uint8:
+		return (R)(*tmp), true
+	case uint8:
+		return (R)(tmp), true
+	}
+	var zero R
+	return zero, false
+}
+
+func sumNumber[T any, R constraints.Integer | constraints.Float](item T) R {
+	var box interface{} = item
+	switch tmp := box.(type) {
+	case *float64:
+		return (R)(*tmp)
+	case float64:
+		return (R)(tmp)
+	case *uint:
+		return (R)(*tmp)
+	case uint:
+		return (R)(tmp)
+	case *int:
+		return (R)(*tmp)
+	case int:
+		return (R)(tmp)
+	}
+
+	if res, ok := sumIntegerN[R](box); ok {
+		return res
+	}
+	panic("unsupport")
+}
+
 // Sum ...
 func Sum[T any, R constraints.Integer | constraints.Float](q *Query[T], selector func(T) R) R {
 	var total R
@@ -12,55 +74,7 @@ func Sum[T any, R constraints.Integer | constraints.Float](q *Query[T], selector
 		if selector != nil {
 			total += selector(item)
 		} else {
-			var box interface{} = item
-			switch tmp := box.(type) {
-			case *float64:
-				total += (R)(*tmp)
-			case float64:
-				total += (R)(tmp)
-			case *int:
-				total += (R)(*tmp)
-			case int:
-				total += (R)(tmp)
-			case *int32:
-				total += (R)(*tmp)
-			case int32:
-				total += (R)(tmp)
-			case *int64:
-				total += (R)(*tmp)
-			case int64:
-				total += (R)(tmp)
-			case *int16:
-				total += (R)(*tmp)
-			case int16:
-				total += (R)(tmp)
-			case *int8:
-				total += (R)(*tmp)
-			case int8:
-				total += (R)(tmp)
-			case *uint:
-				total += (R)(*tmp)
-			case uint:
-				total += (R)(tmp)
-			case *uint32:
-				total += (R)(*tmp)
-			case uint32:
-				total += (R)(tmp)
-			case *uint64:
-				total += (R)(*tmp)
-			case uint64:
-				total += (R)(tmp)
-			case *uint16:
-				total += (R)(*tmp)
-			case uint16:
-				total += (R)(tmp)
-			case *uint8:
-				total += (R)(*tmp)
-			case uint8:
-				total += (R)(tmp)
-			default:
-				panic("unsupport")
-			}
+			total += sumNumber[T, R](item)
 		}
 	}
 	return total
