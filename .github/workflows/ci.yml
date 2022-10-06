@@ -44,7 +44,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git fetch origin master
+          git fetch origin main
           go get github.com/johejo/go-cover-view
           go install github.com/johejo/go-cover-view
-          go-cover-view -ci github-actions -git-diff-base origin/master
+          go-cover-view -ci github-actions -git-diff-base origin/main
