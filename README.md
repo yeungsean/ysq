@@ -22,7 +22,11 @@ go get -v github.com/yeungsean/ysq
 ```go
 package main
 
-import "fmt"
+import (
+    "fmt"
+
+    "github.com/yeungsean/ysq/pkg/delegate"
+)
 
 func main() {
 }
@@ -58,8 +62,8 @@ func sequence() {
 func filter() {
     // or Where
     res := FromSequence(1, 20).Filter(func(i int) bool {
-		return i < 10
-	}).ToSlice(10)
+        return i < 10
+    }).ToSlice(10)
     fmt.Println(res) // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 }
 
@@ -91,5 +95,31 @@ func all() {
         return i%2 == 0
     })
     fmt.Println(res) // false
+}
+
+// like python
+func partial() {
+    tmpAction2 := func(arg1, arg2 int) {
+        fmt.Println(arg1, arg2)
+    }
+    func() {
+        var fa Action2[int, int] = tmpAction2
+        delayCall := fa.Partial(5)
+        delayCall(10) // print 5, 10
+        delayCall(100) // print 5, 100
+    }()
+
+    tmpSumFunc2 := func(arg1, arg2 int) int {
+        return arg1 + arg2
+    }
+    func() {
+        var ff2 Func2[int, int, int] = tmpSumFunc2
+        delayCall := f2.Partial(5)
+        res := delayCall(10)
+        fmt.Println(res) // 15
+
+        res = delayCall(-10)
+        fmt.Println(res) // -5
+    }()
 }
 ```
