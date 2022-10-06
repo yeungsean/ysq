@@ -33,28 +33,30 @@ func FromString(s string) *Query[rune] {
 }
 
 // FromSequence sequence -> Query
+// [start, end)
 func FromSequence[T constraints.Integer](start, end T, stepE ...int) *Query[T] {
 	if start == end {
 		panic("end must be greater than start")
 	}
 
-	length := end - start + 1
+	length := end - start
 	if length <= 0 {
-		panic("end - start + 1 must be greater than 0")
+		panic("end - start must be greater than 0")
 	}
 
 	var step T = 1
 	if len(stepE) > 0 {
 		step = (T)(stepE[0])
 	}
-	slice := make([]T, 0, end-start+1)
-	for i := start; i <= end; i += step {
+	slice := make([]T, 0, end-start)
+	for i := start; i < end; i += step {
 		slice = append(slice, i)
 	}
 	return FromElement(slice...)
 }
 
 // FromSequenceChan sequence chan -> Query
+// [start, end)
 func FromSequenceChan[T constraints.Integer](start, end T, stepE ...int) *Query[T] {
 	if start < 0 || end < 0 {
 		panic("start or end must be greater than or equal 0")
@@ -68,7 +70,7 @@ func FromSequenceChan[T constraints.Integer](start, end T, stepE ...int) *Query[
 	}
 	ch := make(chan T)
 	go func() {
-		for i := start; i <= end; i += step {
+		for i := start; i < end; i += step {
 			ch <- i
 		}
 		close(ch)

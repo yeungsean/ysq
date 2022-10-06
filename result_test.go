@@ -24,7 +24,7 @@ func TestToSet(t *testing.T) {
 }
 
 func TestCount(t *testing.T) {
-	cnt := FromSequence(1, 10).Count()
+	cnt := FromSequence(1, 11).Count()
 	assert.Equal(t, int64(10), cnt)
 
 	cnt = FromSlice([]int{}).Count()
@@ -68,7 +68,7 @@ func TestToChan(t *testing.T) {
 		Ch: make(chan int),
 	}
 	go func() {
-		FromSequence(1, 10).ToChan(cr)
+		FromSequence(1, 11).ToChan(cr)
 	}()
 	i := 0
 	for v := range cr.Ch {
@@ -124,7 +124,7 @@ func TestToMap(t *testing.T) {
 
 func TestMax(t *testing.T) {
 	func() {
-		seQ := FromSequence(1, 100)
+		seQ := FromSequence(1, 101)
 		res := seQ.Max(NumberComparer[int])
 		assert.Equal(t, 100, res)
 	}()

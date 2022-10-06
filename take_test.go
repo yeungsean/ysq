@@ -9,20 +9,20 @@ import (
 
 func TestTakeWhile(t *testing.T) {
 	func() {
-		actual := FromSequence[int64](1, 100).TakeWhile(func(i int64) bool {
+		actual := FromSequence[int64](1, 101).TakeWhile(func(i int64) bool {
 			return i <= 10
 		}).ToSlice(10)
-		want := FromSequence[int64](1, 10).ToSlice(10)
+		want := FromSequence[int64](1, 11).ToSlice(10)
 		if !reflect.DeepEqual(actual, want) {
 			t.Errorf("actual(%v) != want(%v)", actual, want)
 		}
 	}()
 
 	func() {
-		actual := FromSequence[int64](1, 10).TakeWhile(func(i int64) bool {
+		actual := FromSequence[int64](1, 11).TakeWhile(func(i int64) bool {
 			return i <= 10
 		}).ToSlice(10)
-		want := FromSequence[int64](1, 10).ToSlice(10)
+		want := FromSequence[int64](1, 11).ToSlice(10)
 		assert.Equal(t, want, actual)
 	}()
 }

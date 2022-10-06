@@ -53,7 +53,7 @@ func pager() {
 
 func sequence() {
     res1 := FromSequence(1, 10)
-    fmt.Println(res1) // [1,2,3,4,5,6,7,8,9,10]
+    fmt.Println(res1) // [1,2,3,4,5,6,7,8,9]
 
     res2 := FromSequence(1, 10, 2)
     fmt.Println(res2) // [1,3,5,7,9]
@@ -99,7 +99,7 @@ func all() {
 
 func mapReduce() {
     func() {
-        res := FromSequence(1, 10).Select(func(v int) int {
+        res := FromSequence(1, 11).Select(func(v int) int {
             return v + 1
         }).Reduce(0, func(total, current int) int {
             return total + current
@@ -108,7 +108,7 @@ func mapReduce() {
     }()
 
     func() {
-        res := FromSequence(1, 10).Select(func(v int) int {
+        res := FromSequence(1, 11).Select(func(v int) int {
             return v + 1
         }).SumToInt(func(current int) int {
             return current

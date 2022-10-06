@@ -11,7 +11,7 @@ func TestFromString(t *testing.T) {
 }
 
 func TestFromSequenceChan(t *testing.T) {
-	slice := FromSequenceChan(1, 10).ToSlice(10)
+	slice := FromSequenceChan(1, 11).ToSlice(10)
 	assert.Equal(t, slice, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	assert.Panics(t, func() {
@@ -41,6 +41,12 @@ func TestFromSequence(t *testing.T) {
 	func() {
 		actual := FromSequence(1, 10, 2).ToSlice(5)
 		want := []int{1, 3, 5, 7, 9}
+		assert.Equal(t, want, actual)
+	}()
+
+	func() {
+		actual := FromSequence(1, 10).ToSlice(10)
+		want := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 		assert.Equal(t, want, actual)
 	}()
 }

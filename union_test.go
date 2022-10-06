@@ -8,7 +8,7 @@ import (
 
 func TestUnion(t *testing.T) {
 	func() {
-		q1 := FromSequence(1, 10)
+		q1 := FromSequence(1, 11)
 		l2 := []int{1, 2, 9, 11, 21, 39}
 		actual := q1.Union(l2).ToSlice()
 		want := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 21, 39}
@@ -16,7 +16,7 @@ func TestUnion(t *testing.T) {
 	}()
 
 	func() {
-		q1 := FromSequence(1, 10)
+		q1 := FromSequence(1, 11)
 		l2 := []int{1, 2, 2, 9, 11, 21, 39}
 		actual := q1.Union(l2).ToSlice()
 		want := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 21, 39}

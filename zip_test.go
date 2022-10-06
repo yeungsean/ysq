@@ -9,7 +9,7 @@ import (
 
 func TestZip(t *testing.T) {
 	func() {
-		qInt := FromSequence(1, 4)
+		qInt := FromSequence(1, 5)
 		strs := []string{"one", "two", "three"}
 		slice := Zip(qInt, strs, func(first int, second string) string {
 			return fmt.Sprintf("%d %s", first, second)
@@ -19,7 +19,7 @@ func TestZip(t *testing.T) {
 	}()
 
 	func() {
-		qInt := FromSequence(1, 4)
+		qInt := FromSequence(1, 5)
 		strs := []string{"one", "two", "three", "four"}
 		slice := Zip(qInt, strs, func(first int, second string) string {
 			return fmt.Sprintf("%d %s", first, second)
@@ -30,7 +30,7 @@ func TestZip(t *testing.T) {
 }
 
 func TestZipQ(t *testing.T) {
-	qInt := FromSequence(1, 4)
+	qInt := FromSlice([]int{1, 2, 3, 4})
 	qStr := FromElement("one", "two", "three")
 	slice := ZipQ(qInt, qStr, func(first int, second string) string {
 		return fmt.Sprintf("%d %s", first, second)
