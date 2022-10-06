@@ -1,9 +1,9 @@
 # ysq
 
-[![Build Status](https://github.com/yeungsean/ysq/workflows/CI/badge.svg)
+![Build Status](https://github.com/yeungsean/ysq/workflows/CI/badge.svg)
 [![License](https://img.shields.io/github/license/yeungsean/ysq)](/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/yeungsean/ysq)](https://goreportcard.com/report/github.com/yeungsean/ysq)
-[![Coverage Status](https://img.shields.io/coveralls/github/yeungsean/ysq.svg)(https://coveralls.io/r/yeungsean/ysq)
+[![Coverage Status](https://img.shields.io/coveralls/github/yeungsean/ysq.svg)](https://coveralls.io/r/yeungsean/ysq)
 
 ## Go Version
 
