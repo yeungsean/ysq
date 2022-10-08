@@ -25,6 +25,7 @@ package main
 import (
     "fmt"
 
+    "github.com/yeungsean/ysq"
     "github.com/yeungsean/ysq/pkg/delegate"
 )
 
@@ -33,7 +34,7 @@ func main() {
 
 func castInterface() {
     slice := []int64{1,2,3,4,5,6}
-    interfaceSlice := FromSlice(slice).CastToInterface().ToSlice()
+    interfaceSlice := ysq.FromSlice(slice).CastToInterface().ToSlice()
     printArgs := func(args []interface{}) {
         fmt.Printf("%#v\n", args)
     }
@@ -42,26 +43,26 @@ func castInterface() {
 
 func getTop3Element() {
     slice := []int64{1,2,3,4,5,6,7,8,9,10}
-    res := FromSlice(slice).Take(3).ToSlice()
+    res := ysq.FromSlice(slice).Take(3).ToSlice()
     fmt.Println(res) // [1,2,3]
 }
 
 func pager() {
-    res := FromSequence(1, 20).Skip(10).Take(5).ToSlice(5)
+    res := ysq.FromSequence(1, 20).Skip(10).Take(5).ToSlice(5)
     fmt.Println(res) // [11,12,13,14,15]
 }
 
 func sequence() {
-    res1 := FromSequence(1, 10)
+    res1 := ysq.FromSequence(1, 10)
     fmt.Println(res1) // [1,2,3,4,5,6,7,8,9]
 
-    res2 := FromSequence(1, 10, 2)
+    res2 := ysq.FromSequence(1, 10, 2)
     fmt.Println(res2) // [1,3,5,7,9]
 }
 
 func filter() {
     // or Where
-    res := FromSequence(1, 20).Filter(func(i int) bool {
+    res := ysq.FromSequence(1, 20).Filter(func(i int) bool {
         return i < 10
     }).ToSlice(10)
     fmt.Println(res) // [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -69,29 +70,29 @@ func filter() {
 
 func contains() {
     // or In
-    res := FromSequence(1, 100).Contains(func(i int) bool {
+    res := ysq.FromSequence(1, 100).Contains(func(i int) bool {
         return i%2 == 0
     })
     fmt.Println(res) // true
 
-    res = FromSequence(1, 100).In(func(i int) bool {
+    res = ysq.FromSequence(1, 100).In(func(i int) bool {
         return i == 10
     })
     fmt.Println(res) // true
 
-    res = FromSequence(1, 100).Contains(func(i int) bool {
+    res = ysq.FromSequence(1, 100).Contains(func(i int) bool {
         return i > 1000
     })
     fmt.Println(res) // false
 }
 
 func all() {
-    res := FromSequence(1, 100).All(func(i int) bool {
+    res := ysq.FromSequence(1, 100).All(func(i int) bool {
         return i < 1000
     })
     fmt.Println(res) // true
 
-    res = FromSlice([]int{1,3,5,7,9}).All(func(i int) bool {
+    res = ysq.FromSlice([]int{1,3,5,7,9}).All(func(i int) bool {
         return i%2 == 0
     })
     fmt.Println(res) // false
@@ -99,7 +100,7 @@ func all() {
 
 func mapReduce() {
     func() {
-        res := FromSequence(1, 11).Select(func(v int) int {
+        res := ysq.FromSequence(1, 11).Select(func(v int) int {
             return v + 1
         }).Reduce(0, func(total, current int) int {
             return total + current
@@ -108,7 +109,7 @@ func mapReduce() {
     }()
 
     func() {
-        res := FromSequence(1, 11).Select(func(v int) int {
+        res := ysq.FromSequence(1, 11).Select(func(v int) int {
             return v + 1
         }).SumToInt(func(current int) int {
             return current
@@ -123,7 +124,7 @@ func partial() {
         fmt.Println(arg1, arg2)
     }
     func() {
-        var fa Action2[int, int] = tmpAction2
+        var fa delegate.Action2[int, int] = tmpAction2
         delayCall := fa.Partial(5)
         delayCall(10) // print 5, 10
         delayCall(100) // print 5, 100
@@ -133,8 +134,8 @@ func partial() {
         return arg1 + arg2
     }
     func() {
-        var ff2 Func2[int, int, int] = tmpSumFunc2
-        delayCall := f2.Partial(5)
+        var ff2 delegate.Func2[int, int, int] = tmpSumFunc2
+        delayCall := ff2.Partial(5)
         res := delayCall(10)
         fmt.Println(res) // 15
 
