@@ -6,6 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func BenchmarkFromElementB(b *testing.B) {
+	b.Run("", func(b *testing.B) {
+		FromElement(1, 2, 3, 4, 5).ToSlice()
+	})
+}
+
 func TestFromString(t *testing.T) {
 	FromString(`good good boy`)
 }

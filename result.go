@@ -27,7 +27,7 @@ func (q *Query[T]) ToSet(sliceCap ...uint) []T {
 	return result
 }
 
-// ToSlice ...
+// ToSlice 返回切片
 func (q *Query[T]) ToSlice(sliceCap ...uint) []T {
 	length := q.getSliceLength(sliceCap...)
 	result := make([]T, 0, length)

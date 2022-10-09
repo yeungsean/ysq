@@ -4,19 +4,23 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+func fromElementNext[T any](idx, length int, source ...T) Iterator[T] {
+	return func() (item T, ok bool) {
+		if ok = idx < length; ok {
+			item = source[idx]
+			idx++
+		}
+		return
+	}
+}
+
 // FromElement element list -> Query
 func FromElement[T any](source ...T) *Query[T] {
 	var t Query[T]
 	length := len(source)
 	t.Next = func() Iterator[T] {
 		idx := 0
-		return func() (item T, ok bool) {
-			if ok = idx < length; ok {
-				item = source[idx]
-				idx++
-			}
-			return
-		}
+		return fromElementNext(idx, length, source...)
 	}
 	return &t
 }
