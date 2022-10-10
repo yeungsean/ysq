@@ -1,6 +1,7 @@
 package slice
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/yeungsean/ysq/pkg/delegate"
@@ -169,6 +170,32 @@ func TestAllBy(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := AllBy(tt.args.slice, tt.args.fn); got != tt.want {
 				t.Errorf("AllBy() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestToInterface(t *testing.T) {
+	type args[T comparable] struct {
+		slice []T
+		want  []interface{}
+	}
+	tests := []struct {
+		name string
+		args args[int]
+	}{
+		{
+			name: "exists",
+			args: args[int]{
+				slice: []int{1, 2, 3, 4, 5, 6, 7},
+				want:  []interface{}{1, 2, 3, 4, 5, 6, 7},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := CastToInterface(tt.args.slice); !reflect.DeepEqual(got, tt.args.want) {
+				t.Errorf("CastToInterface() = %v, want %v", got, tt.args.want)
 			}
 		})
 	}
