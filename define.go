@@ -43,7 +43,7 @@ var (
 )
 
 // Iter 迭代
-func (q Query[T]) Iter(next Iterator[T], predicate func(T) IterContinue) (item T, ok bool) {
+func (q *Query[T]) Iter(next Iterator[T], predicate func(T) IterContinue) (item T, ok bool) {
 	for item, ok = next(); ok; item, ok = next() {
 		if !predicate(item) {
 			return item, ok
