@@ -11,7 +11,7 @@ import (
 func (q *Query[T]) getSliceLength(sliceCap ...int) int {
 	length := 1
 	if len(sliceCap) > 0 {
-		length = int(sliceCap[0])
+		length = sliceCap[0]
 	}
 	return length
 }
