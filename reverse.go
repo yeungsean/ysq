@@ -1,7 +1,7 @@
 package ysq
 
 // Reverse 反转
-func (q *Query[T]) Reverse(sliceCap ...uint) *Query[T] {
+func (q *Query[T]) Reverse(sliceCap ...int) *Query[T] {
 	return &Query[T]{
 		Next: func() Iterator[T] {
 			length := q.getSliceLength(sliceCap...)

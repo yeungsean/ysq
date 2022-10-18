@@ -8,7 +8,7 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-func (q *Query[T]) getSliceLength(sliceCap ...uint) int {
+func (q *Query[T]) getSliceLength(sliceCap ...int) int {
 	length := 1
 	if len(sliceCap) > 0 {
 		length = int(sliceCap[0])
@@ -17,7 +17,7 @@ func (q *Query[T]) getSliceLength(sliceCap ...uint) int {
 }
 
 // ToSet 返回去重后的序列
-func (q *Query[T]) ToSet(sliceCap ...uint) []T {
+func (q *Query[T]) ToSet(sliceCap ...int) []T {
 	length := q.getSliceLength(sliceCap...)
 	tmp := q.Distinct()
 	result := make([]T, 0, length)
@@ -28,7 +28,7 @@ func (q *Query[T]) ToSet(sliceCap ...uint) []T {
 }
 
 // ToSlice 返回切片
-func (q *Query[T]) ToSlice(sliceCap ...uint) []T {
+func (q *Query[T]) ToSlice(sliceCap ...int) []T {
 	length := q.getSliceLength(sliceCap...)
 	result := make([]T, 0, length)
 	q.ForEach(func(t T) {
