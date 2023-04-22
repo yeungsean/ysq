@@ -17,7 +17,7 @@ func Select[T, TResult any](q *Query[T], selector func(T) TResult) *Query[TResul
 	return qr
 }
 
-func selectManyIterator[T, TResult any](q *Query[T], self *Query[TResult],
+func selectManyIterator[T, TResult any](q *Query[T], _ *Query[TResult],
 	selector func(T) *Query[TResult]) func() Iterator[TResult] {
 	return func() Iterator[TResult] {
 		outernext := q.Next()

@@ -18,15 +18,15 @@ func GroupBy[T any, TKey comparable](
 	return &Query[KeyListPair[TKey, T]]{
 		Next: func() Iterator[KeyListPair[TKey, T]] {
 			set := groupByGetSet(q, keySelector)
-			len, idx, index := len(set), 0, 0
-			groups := make([]KeyListPair[TKey, T], len)
+			length, idx, index := len(set), 0, 0
+			groups := make([]KeyListPair[TKey, T], length)
 			for k, v := range set {
 				groups[idx] = KeyListPair[TKey, T]{Key: k, List: v}
 				idx++
 			}
 
 			return func() (item KeyListPair[TKey, T], ok bool) {
-				if ok = index < len; ok {
+				if ok = index < length; ok {
 					item = groups[index]
 					index++
 				}
@@ -45,8 +45,8 @@ func GroupByWithC[T any, TKey comparable, TResult any](
 	return &Query[KeyValuePair[TKey, TResult]]{
 		Next: func() Iterator[KeyValuePair[TKey, TResult]] {
 			set := groupByGetSet(q, keySelector)
-			len, idx, index := len(set), 0, 0
-			groups := make([]KeyValuePair[TKey, TResult], len)
+			length, idx, index := len(set), 0, 0
+			groups := make([]KeyValuePair[TKey, TResult], length)
 			for k, v := range set {
 				groups[idx] = KeyValuePair[TKey, TResult]{
 					Key:   k,
@@ -56,7 +56,7 @@ func GroupByWithC[T any, TKey comparable, TResult any](
 			}
 
 			return func() (item KeyValuePair[TKey, TResult], ok bool) {
-				if ok = index < len; ok {
+				if ok = index < length; ok {
 					item = groups[index]
 					index++
 				}
