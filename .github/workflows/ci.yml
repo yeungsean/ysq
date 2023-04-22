@@ -30,7 +30,7 @@ jobs:
         run: make mod
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3.2.0
+        uses: golangci/golangci-lint-action@v3.4.0
         with:
           version: latest
           # skip cache because of flaky behaviors
