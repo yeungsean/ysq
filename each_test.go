@@ -1,6 +1,7 @@
 package ysq
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -67,6 +68,61 @@ func TestForEachxN(t *testing.T) {
 			}
 			idx++
 			return true
+		})
+		assert.Equal(t, 4, idx)
+	}()
+}
+
+func TestForEachE(t *testing.T) {
+	slice := []int{1, 2, 3, 4, 5, 6}
+	func() {
+		q := FromSlice(slice)
+		idx := 0
+		q.ForEachE(func(val int) error {
+			assert.Equal(t, slice[idx], val)
+			idx++
+			return nil
+		})
+	}()
+
+	func() {
+		q := FromSlice(slice)
+		idx := 0
+		q.ForEachE(func(val int) error {
+			assert.Equal(t, slice[idx], val)
+			if idx > 3 {
+				return errors.New("greater than 3")
+			}
+			idx++
+			return nil
+		})
+		assert.Equal(t, 4, idx)
+	}()
+}
+
+func TestForEachEN(t *testing.T) {
+	slice := []int{1, 2, 3, 4, 5, 6}
+	func() {
+		q := FromSlice(slice)
+		idx := 0
+		q.ForEachEN(func(val, i int) error {
+			assert.Equal(t, slice[idx], val)
+			assert.Equal(t, idx, i)
+			idx++
+			return nil
+		})
+	}()
+
+	func() {
+		q := FromSlice(slice)
+		idx := 0
+		q.ForEachEN(func(val, i int) error {
+			assert.Equal(t, slice[idx], val)
+			if idx > 3 {
+				return errors.New("greater than 3")
+			}
+			idx++
+			return nil
 		})
 		assert.Equal(t, 4, idx)
 	}()
