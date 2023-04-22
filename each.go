@@ -45,23 +45,24 @@ func (q *Query[T]) ForEachxN(action delegate.FuncTIntBool[T]) {
 }
 
 // ForEachE 遍历，返回error就中断
-func (q *Query[T]) ForEachE(f delegate.Func1[T, error]) {
+func (q *Query[T]) ForEachE(f delegate.Func1[T, error]) (err error) {
 	next := q.Next()
 	for item, ok := next(); ok; item, ok = next() {
-		if err := f(item); err != nil {
-			break
+		if err = f(item); err != nil {
+			return
 		}
 	}
+	return nil
 }
 
 // ForEachEN 遍历，带数字，返回error就中断
-func (q *Query[T]) ForEachEN(f delegate.Func2[T, int, error]) {
-	next := q.Next()
-	idx := 0
+func (q *Query[T]) ForEachEN(f delegate.Func2[T, int, error]) (err error) {
+	next, idx := q.Next(), 0
 	for item, ok := next(); ok; item, ok = next() {
-		if err := f(item, idx); err != nil {
-			break
+		if err = f(item, idx); err != nil {
+			return
 		}
 		idx++
 	}
+	return nil
 }
